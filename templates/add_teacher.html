@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="mb-4">Add Teacher</h1>
+<form method="post">
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label class="form-label">Employee ID</label>
+            <input name="employee_id" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Name</label>
+            <input name="teacher_name" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Department</label>
+            <input name="department" class="form-control">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Specialization</label>
+            <input name="specialization" class="form-control">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Max Hours Per Week</label>
+            <input type="number" name="max_hours_per_week" class="form-control" value="36" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Availability</label>
+            <select name="availability_status" class="form-select">
+                <option>Available</option>
+                <option>On Leave</option>
+                <option>Unavailable</option>
+            </select>
+        </div>
+    </div>
+    <button class="btn btn-success mt-4">Save Teacher</button>
+</form>
+{% endblock %}

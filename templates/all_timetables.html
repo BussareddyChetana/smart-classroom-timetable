@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1 class="mb-4">View Timetables</h1>
+
+<div class="row g-3">
+
+{% for section in sections %}
+<div class="col-12 col-md-6 col-lg-4">
+    <div class="card h-100">
+        <div class="card-body text-center">
+            <h5>{{ section.section_name }}</h5>
+
+            <a href="{{ url_for('view_timetable',
+            section_id=section.section_id) }}"
+            class="btn btn-primary mt-2">
+                View Timetable
+            </a>
+
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+</div>
+
+{% endblock %}

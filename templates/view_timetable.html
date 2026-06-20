@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="mb-4">Timetable - {{ section.section_name }}</h1>
+<div class="table-responsive">
+<table class="table table-bordered timetable-table">
+    <thead>
+        <tr>
+            <th>Day / Period</th>
+            {% for period in periods %}
+                <th>{{ period }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for day in days %}
+        <tr>
+            <td><strong>{{ day }}</strong></td>
+            {% for period in periods %}
+                <td>
+                    {% if period in ['BREAK', 'LUNCH'] %}
+                        <div class="break-cell"><strong>{{ period }}</strong></div>
+                    {% elif timetable[day][period] %}
+                    <div><strong>{{ timetable[day][period].subject_name }}</strong></div>
+
+{% if timetable[day][period].subject_name not in
+['CRT','Library','Sports','Self Learning','Mentoring','BREAK','LUNCH'] %}
+    <div>{{ timetable[day][period].faculty_name }}</div>
+{% endif %}
+
+<div class="text-readable-muted">{{ timetable[day][period].room_no }}</div>
+                         {% else %}
+                        <span class="text-secondary">Free</span>
+                    {% endif %}
+                </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="dashboard-page">
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+        <div>
+            <h1 class="mb-1"><i class="bi bi-person-circle"></i> Student Dashboard</h1>
+            <p class="text-readable-muted mb-0">{{ student.roll_number }} | {{ student.section_name }} | {{ student.semester }}</p>
+        </div>
+        <div class="badge rounded-pill text-bg-primary fs-6 px-3 py-2" id="countdownTimer" data-next-period="{{ next_class.period if next_class else '' }}">Next class: --:--</div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-broadcast"></i> Current Class</h5>
+                    {% if current_class %}
+                        <p class="mb-1 fw-semibold">{{ current_class.subject_name }}</p>
+                        <p class="mb-0 text-readable-muted">
+    {{ current_class.period }}
+
+    {% if current_class.subject_name not in ['CRT','Library','Sports','Self Learning','Mentoring','BREAK','LUNCH'] %}
+        | {{ current_class.faculty_name }}
+    {% endif %}
+
+    | {{ current_class.room_no }}
+</p>
+                    {% else %}
+                        <p class="text-readable-muted mb-0">No class in progress.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-arrow-right-circle"></i> Next Class</h5>
+                    {% if next_class %}
+                        <p class="mb-1 fw-semibold">{{ next_class.subject_name }}</p>
+                        <p class="mb-0 text-readable-muted">{{ next_class.day }} | {{ next_class.period }} | {{ next_class.room_no }}</p>
+                    {% else %}
+                        <p class="text-readable-muted mb-0">No upcoming class found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-lg-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-calendar-day"></i> Today's Schedule</h5>
+                    <div class="list-group list-group-flush">
+                        {% for entry in today_schedule %}
+                            <div class="list-group-item">
+                                <strong>{{ entry.period }}</strong> {{ entry.subject_name }}
+                                <span class="d-block text-readable-muted">
+
+{% if entry.subject_name not in ['CRT','Library','Sports','Self Learning','Mentoring','BREAK','LUNCH'] %}
+    {{ entry.faculty_name }} |
+{% endif %}
+
+{{ entry.room_no }}
+
+</span>
+                    
+                            </div>
+                        {% else %}
+                            <div class="list-group-item text-readable-muted">No classes today.</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7">
+            <div class="row g-3">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-megaphone"></i> Announcements</h5>
+                            <div class="list-group list-group-flush">
+                                {% for announcement in announcements %}
+                                    <div class="list-group-item">
+                                        <strong>{{ announcement.title }}</strong>
+                                        <span class="d-block text-readable-muted">{{ announcement.message }}</span>
+                                    </div>
+                                {% else %}
+                                    <div class="list-group-item text-readable-muted">No announcements yet.</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-calendar-event"></i> Academic Calendar</h5>
+                            <div class="list-group list-group-flush">
+                                {% for event in academic_calendar %}
+                                    <div class="list-group-item">
+                                        <strong>{{ event.event_name }}</strong>
+                                        <span class="d-block text-readable-muted">{{ event.start_date }}{% if event.end_date %} to {{ event.end_date }}{% endif %}</span>
+                                    </div>
+                                {% else %}
+                                    <div class="list-group-item text-readable-muted">No calendar events added.</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title mb-3"><i class="bi bi-calendar-week"></i> Weekly Timetable</h5>
+            <div class="table-responsive">
+                <table class="table table-hover timetable-table">
+                    <thead>
+                        <tr>
+                            <th>Day / Period</th>
+                            {% for period in periods %}<th>{{ period }}</th>{% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for day in days %}
+                        <tr>
+                            <td><strong>{{ day }}</strong></td>
+                            {% for period in periods %}
+                                <td>
+                                    {% if period in ['BREAK', 'LUNCH'] %}
+                                        <div class="break-cell"><strong>{{ period }}</strong></div>
+                                    {% elif timetable[day][period] %}
+                                        <div class="timetable-cell">
+    <strong>{{ timetable[day][period].subject_name }}</strong>
+
+    {% if timetable[day][period].subject_name not in
+    ['CRT','Library','Sports','Self Learning','Mentoring','BREAK','LUNCH'] %}
+        <small>{{ timetable[day][period].faculty_name }}</small>
+    {% endif %}
+
+    <small class="text-readable-muted">
+        {{ timetable[day][period].room_no }}
+    </small>
+</div>
+                                    {% else %}
+                                        <span class="text-readable-muted">Free</span>
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const periodStarts = {P1: '09:30', P2: '10:20', P3: '11:25', P4: '12:15', P5: '13:50', P6: '14:40'};
+    function updateCountdown() {
+        const timer = document.getElementById('countdownTimer');
+        const nextPeriod = timer.dataset.nextPeriod;
+        if (!nextPeriod || !periodStarts[nextPeriod]) {
+            timer.textContent = 'Next class: none';
+            return;
+        }
+        const now = new Date();
+        const [hours, minutes] = periodStarts[nextPeriod].split(':').map(Number);
+        const target = new Date();
+        target.setHours(hours, minutes, 0, 0);
+        const diff = target - now;
+        if (diff <= 0) {
+            timer.textContent = 'Next class: starting soon';
+            return;
+        }
+        const totalMinutes = Math.floor(diff / 60000);
+        const h = Math.floor(totalMinutes / 60);
+        const m = totalMinutes % 60;
+        timer.textContent = `Next class: ${h}h ${m}m`;
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 60000);
+</script>
+{% endblock %}

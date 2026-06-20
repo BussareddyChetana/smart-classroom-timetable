@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="mb-4">Add Room</h1>
+<form method="post">
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label class="form-label">Room Number</label>
+            <input name="room_no" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Building</label>
+            <input name="building" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Floor Number</label>
+            <input type="number" name="floor_no" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Capacity</label>
+            <input type="number" name="capacity" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Room Type</label>
+            <input name="room_type" class="form-control">
+        </div>
+        <div class="col-md-12">
+            <label class="form-label">Equipment</label>
+            <input name="equipment" class="form-control">
+        </div>
+        <div class="col-md-12 form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="is_active" name="is_active" checked>
+            <label class="form-check-label" for="is_active">Active Room</label>
+        </div>
+    </div>
+    <button class="btn btn-success mt-4">Save Room</button>
+</form>
+{% endblock %}

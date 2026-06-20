@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="mb-4">Edit Subject</h1>
+<form method="post">
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label class="form-label">Subject Name</label>
+            <input name="subject_name" class="form-control" value="{{ subject.subject_name }}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Subject Type</label>
+            <input name="subject_type" class="form-control" value="{{ subject.subject_type }}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Faculty Name</label>
+            <select name="faculty_name" class="form-select" required>
+                {% for teacher in teachers %}
+                    <option value="{{ teacher.teacher_name }}" {% if teacher.teacher_name == subject.faculty_name %}selected{% endif %}>{{ teacher.teacher_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Semester</label>
+            <input name="semester" class="form-control" value="{{ subject.semester }}" required>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Hours Per Week</label>
+            <input type="number" name="hours_per_week" class="form-control" value="{{ subject.hours_per_week }}" required>
+        </div>
+    </div>
+    <button class="btn btn-primary mt-4">Update Subject</button>
+</form>
+{% endblock %}

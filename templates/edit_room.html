@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="mb-4">Edit Room</h1>
+<form method="post">
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label class="form-label">Room Number</label>
+            <input name="room_no" class="form-control" value="{{ room.room_no }}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Building</label>
+            <input name="building" class="form-control" value="{{ room.building }}">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Floor Number</label>
+            <input type="number" name="floor_no" class="form-control" value="{{ room.floor_no }}">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Capacity</label>
+            <input type="number" name="capacity" class="form-control" value="{{ room.capacity }}">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Room Type</label>
+            <input name="room_type" class="form-control" value="{{ room.room_type }}">
+        </div>
+        <div class="col-md-12">
+            <label class="form-label">Equipment</label>
+            <input name="equipment" class="form-control" value="{{ room.equipment }}">
+        </div>
+        <div class="col-md-12 form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="is_active" name="is_active" {% if room.is_active %}checked{% endif %}>
+            <label class="form-check-label" for="is_active">Active Room</label>
+        </div>
+    </div>
+    <button class="btn btn-primary mt-4">Update Room</button>
+</form>
+{% endblock %}

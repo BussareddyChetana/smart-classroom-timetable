@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="mb-4">Generate Timetable</h1>
+<form method="post">
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label class="form-label">Select Section</label>
+            <select name="section_id" class="form-select" required>
+                {% for section in sections %}
+                    <option value="{{ section.section_id }}">{{ section.section_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <button class="btn btn-primary mt-4">Generate</button>
+</form>
+{% endblock %}

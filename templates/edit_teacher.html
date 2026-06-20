@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="mb-4">Edit Teacher</h1>
+<form method="post">
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label class="form-label">Employee ID</label>
+            <input name="employee_id" class="form-control" value="{{ teacher.employee_id }}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Name</label>
+            <input name="teacher_name" class="form-control" value="{{ teacher.teacher_name }}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Department</label>
+            <input name="department" class="form-control" value="{{ teacher.department }}">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Specialization</label>
+            <input name="specialization" class="form-control" value="{{ teacher.specialization }}">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">New Password</label>
+            <input type="password" name="password" class="form-control">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Max Hours Per Week</label>
+            <input type="number" name="max_hours_per_week" class="form-control" value="{{ teacher.max_hours_per_week }}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Availability</label>
+            <select name="availability_status" class="form-select">
+                <option {% if teacher.availability_status == 'Available' %}selected{% endif %}>Available</option>
+                <option {% if teacher.availability_status == 'On Leave' %}selected{% endif %}>On Leave</option>
+                <option {% if teacher.availability_status == 'Unavailable' %}selected{% endif %}>Unavailable</option>
+            </select>
+        </div>
+    </div>
+    <button class="btn btn-primary mt-4">Update Teacher</button>
+</form>
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="dashboard-page">
+    <div class="mb-4">
+        <h1 class="mb-1"><i class="bi bi-graph-up"></i> Reports</h1>
+        <p class="text-muted mb-0">Workload, utilization, coverage, counts, and conflict checks.</p>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stats-card"><i class="bi bi-people"></i><h4>{{ faculty_count }}</h4><p>Faculty Count</p></div>
+        </div>
+        {% for row in student_counts %}
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stats-card"><i class="bi bi-mortarboard"></i><h4>{{ row.seeded_students }}</h4><p>{{ row.section_name }} Students</p></div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="row gy-4">
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-header">Teacher Workload Report</div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead><tr><th>Faculty</th><th>Assigned Periods</th></tr></thead>
+                            <tbody>
+                                {% for row in teacher_loads %}
+                                <tr><td>{{ row.faculty_name }}</td><td><span class="badge bg-primary">{{ row.assigned_hours }}</span></td></tr>
+                                {% else %}
+                                <tr><td colspan="2" class="text-muted">No timetable data.</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-header">Room Utilization Report</div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead><tr><th>Room</th><th>Used Periods</th></tr></thead>
+                            <tbody>
+                                {% for row in room_usage %}
+                                <tr><td>{{ row.room_no }}</td><td><span class="badge bg-success">{{ row.usage_count }}</span></td></tr>
+                                {% else %}
+                                <tr><td colspan="2" class="text-muted">No room usage data.</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-header">Subject Coverage Report</div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead><tr><th>Subject</th><th>Sessions</th></tr></thead>
+                            <tbody>
+                                {% for row in subject_coverage %}
+                                <tr><td>{{ row.subject_name }}</td><td><span class="badge bg-warning text-dark">{{ row.sessions }}</span></td></tr>
+                                {% else %}
+                                <tr><td colspan="2" class="text-muted">No subject coverage data.</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-header">Student Count Report</div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead><tr><th>Section</th><th>Configured</th><th>Seeded</th></tr></thead>
+                            <tbody>
+                                {% for row in student_counts %}
+                                <tr><td>{{ row.section_name }}</td><td>{{ row.student_count }}</td><td>{{ row.seeded_students }}</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">Conflict Report</div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-lg-4">
+                            <h6>Room Conflicts</h6>
+                            {% for row in room_conflicts %}
+                                <div class="alert alert-danger py-2">{{ row.day }} {{ row.period }} | {{ row.room_no }} | {{ row.conflict_count }}</div>
+                            {% else %}
+                                <div class="alert alert-success py-2">No room conflicts.</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-lg-4">
+                            <h6>Faculty Conflicts</h6>
+                            {% for row in faculty_conflicts %}
+                                <div class="alert alert-danger py-2">{{ row.day }} {{ row.period }} | {{ row.faculty_name }} | {{ row.conflict_count }}</div>
+                            {% else %}
+                                <div class="alert alert-success py-2">No faculty conflicts.</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-lg-4">
+                            <h6>Section Conflicts</h6>
+                            {% for row in section_conflicts %}
+                                <div class="alert alert-danger py-2">{{ row.day }} {{ row.period }} | Section {{ row.section_id }} | {{ row.conflict_count }}</div>
+                            {% else %}
+                                <div class="alert alert-success py-2">No section conflicts.</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
