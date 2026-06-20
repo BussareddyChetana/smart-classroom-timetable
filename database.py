@@ -1,19 +1,14 @@
+import os
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from flask import g
 
-DATABASE_CONFIG = {
-    'host': 'localhost',
-    'port': 5432,
-    'dbname': 'smart_classroom_system',
-    'user': 'postgres',
-    'password': '123'
-}
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
 
 def get_db():
     if 'db' not in g:
-        g.db = psycopg2.connect(**DATABASE_CONFIG)
+        g.db = psycopg2.connect(DATABASE_URL)
     return g.db
 
 
@@ -36,7 +31,7 @@ def close_db(e=None):
 
 
 def init_db():
-    db = psycopg2.connect(**DATABASE_CONFIG)
+    db = psycopg2.connect(DATABASE_URL)
     with db.cursor() as cur:
         cur.execute(open('schema.sql', 'r', encoding='utf-8').read())
         db.commit()
