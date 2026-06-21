@@ -517,15 +517,7 @@ def view_subjects():
         ON ssf.section_id = sec.section_id
     JOIN subjects sub
         ON ssf.subject_name = sub.subject_name
-    ORDER BY
-        CASE
-            WHEN ssf.subject_name IN
-            ('CRT','Library','Sports','Mentoring','Self Learning')
-            THEN 1
-            ELSE 0
-        END,
-        ssf.subject_name,
-        sec.section_name
+    ORDER BY ssf.subject_name, sec.section_name
     ''',
     fetchall=True
     )
