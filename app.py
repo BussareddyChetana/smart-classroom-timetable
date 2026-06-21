@@ -504,34 +504,24 @@ def view_subjects():
     subjects = query(
     '''
     SELECT
-    ssf.id AS subject_id,
-    ssf.subject_name,
-    ssf.faculty_name,
-    ssf.department AS subject_type,
-    'SEM-VI' AS semester,
-    sec.section_name,
-    0 AS hours_per_week
+        ssf.id AS subject_id,
+        ssf.subject_name,
+        ssf.faculty_name,
+        ssf.department,
+        sec.section_name
     FROM section_subject_faculty ssf
     JOIN sections sec
     ON ssf.section_id = sec.section_id
     ORDER BY sec.section_name, ssf.subject_name
     ''',
     fetchall=True
-   )
+    )
     print(subjects)
     print("SUBJECTS LENGTH =", len(subjects))
 
-    
-
-    teachers = query(
-        'SELECT teacher_name FROM teachers ORDER BY teacher_name',
-        fetchall=True
-    )
-
     return render_template(
         'subjects.html',
-        subjects=subjects,
-        teachers=teachers
+        subjects=subjects
     )
 
 @app.route('/subjects/add', methods=['GET', 'POST'])
