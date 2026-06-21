@@ -518,6 +518,9 @@ def view_subjects():
     ''',
     fetchall=True
    )
+    print(subjects)
+    print("SUBJECTS LENGTH =", len(subjects))
+
     
 
     teachers = query(
