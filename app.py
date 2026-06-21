@@ -212,7 +212,7 @@ def admin_dashboard():
     teacher_count = query('SELECT COUNT(*) AS count FROM teachers WHERE is_active = TRUE', fetchone=True)['count']
     student_count = query('SELECT COUNT(*) AS count FROM students', fetchone=True)['count']
     room_count = query('SELECT COUNT(*) AS count FROM rooms WHERE is_active = TRUE', fetchone=True)['count']
-    subject_count = query('SELECT COUNT(*) AS count FROM subjects', fetchone=True)['count']
+    subject_count = query('SELECT COUNT(*) AS count FROM section_subject_faculty', fetchone=True)['count']
     section_count = query('SELECT COUNT(*) AS count FROM sections', fetchone=True)['count']
     section_counts = query('SELECT section_name, student_count FROM sections ORDER BY section_name', fetchall=True)
     return render_template('admin_dashboard.html', teacher_count=teacher_count, student_count=student_count,
@@ -507,15 +507,17 @@ def view_subjects():
     ssf.id AS subject_id,
     ssf.subject_name,
     ssf.faculty_name,
-    ssf.department,
-    sec.section_name
+    ssf.department AS subject_type,
+    'SEM-VI' AS semester,
+    sec.section_name,
+    0 AS hours_per_week
     FROM section_subject_faculty ssf
     JOIN sections sec
     ON ssf.section_id = sec.section_id
     ORDER BY sec.section_name, ssf.subject_name
     ''',
     fetchall=True
-    )
+   )
     
 
     teachers = query(
