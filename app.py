@@ -503,20 +503,16 @@ def view_subjects():
         return redirect(url_for('login'))
     subjects = query(
     '''
-    SELECT DISTINCT
-    subject_id,
+    SELECT
+    ssf.id AS subject_id,
     ssf.subject_name,
-    sub.subject_type,
     ssf.faculty_name,
-    sub.semester,
-    sec.section_name,
-    sub.hours_per_week
+    ssf.department,
+    sec.section_name
     FROM section_subject_faculty ssf
     JOIN sections sec
     ON ssf.section_id = sec.section_id
-    JOIN subjects sub
-    ON ssf.subject_name = sub.subject_name
-    ORDER BY ssf.subject_name, sec.section_name
+    ORDER BY sec.section_name, ssf.subject_name
     ''',
     fetchall=True
     )
