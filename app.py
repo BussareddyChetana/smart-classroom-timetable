@@ -322,11 +322,13 @@ def student_dashboard():
     real_today = datetime.now(
         ZoneInfo("Asia/Kolkata")
     ).strftime('%A')
+
     today_name = current_day_name()
+
     if real_today == 'Sunday':
         today_schedule = []
         current_class = {
-            'subject_name':'Holiday'
+            'subject_name': 'Holiday'
         }
         next_class = query(
             '''
@@ -341,14 +343,21 @@ def student_dashboard():
             fetchone=True
         )
     else:
-        today_schedule = [entry for entry in timetable_entries if entry['day'] == today_name]
-    current_class, next_class = current_and_next_class(timetable_entries, today_name)
+        today_schedule = [
+        entry for entry in timetable_entries
+        if entry['day'] == today_name
+        ]
+        current_class, next_class = current_and_next_class(
+            timetable_entries,
+            today_name
+        )
     announcements = active_announcements('student', student['section_id'])
     academic_calendar = query(
         'SELECT * FROM academic_calendar WHERE semester = %s ORDER BY start_date LIMIT 6',
         (student.get('semester') or 'SEM-VI',),
         fetchall=True
     )
+    print("NEXT CLASS =", next_class)
     return render_template(
         'student_dashboard.html',
         student=student,
