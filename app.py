@@ -516,8 +516,10 @@ def view_subjects():
     ''',
     fetchall=True
     )
-    print(subjects)
     print("SUBJECTS LENGTH =", len(subjects))
+    for s in subjects:
+        print(s)
+    
 
     return render_template(
         'subjects.html',
