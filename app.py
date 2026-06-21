@@ -501,26 +501,25 @@ def delete_room(room_id):
 def view_subjects():
     if not session.get('admin_id'):
         return redirect(url_for('login'))
-
     subjects = query(
     '''
     SELECT DISTINCT
-
-        ssf.subject_name,
-        sub.subject_type,
-        ssf.faculty_name,
-        sub.semester,
-        sec.section_name,
-        sub.hours_per_week
+    ssf.subject_name,
+    sub.subject_type,
+    ssf.faculty_name,
+    sub.semester,
+    sec.section_name,
+    sub.hours_per_week
     FROM section_subject_faculty ssf
     JOIN sections sec
-        ON ssf.section_id = sec.section_id
+    ON ssf.section_id = sec.section_id
     JOIN subjects sub
-        ON ssf.subject_name = sub.subject_name
+    ON ssf.subject_name = sub.subject_name
     ORDER BY ssf.subject_name, sec.section_name
     ''',
     fetchall=True
     )
+    
 
     teachers = query(
         'SELECT teacher_name FROM teachers ORDER BY teacher_name',
