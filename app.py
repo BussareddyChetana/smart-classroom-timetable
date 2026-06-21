@@ -224,7 +224,7 @@ def admin_dashboard():
 )['count']
     section_counts = query('SELECT section_name, student_count FROM sections ORDER BY section_name', fetchall=True)
     return render_template('admin_dashboard.html', teacher_count=teacher_count, student_count=student_count,
-                           room_count=room_count, subject_count=subject_count, section_count=section_count,
+                           room_count=room_count, subject_count=subject_count, section_count=section_counts,
                            section_counts=section_counts)
 
 
