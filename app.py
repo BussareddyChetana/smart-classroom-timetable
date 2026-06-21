@@ -516,14 +516,6 @@ def view_subjects():
     ''',
     fetchall=True
     )
-    print("SUBJECTS LENGTH =", len(subjects))
-    for s in subjects:
-        print(s)
-    subjects_count = query(
-        "SELECT COUNT(*) AS cnt FROM section_subject_faculty",
-        fetchone=True
-    )
-    print("RENDER SUBJECT COUNT =", subjects_count['cnt'])
     
 
     return render_template(
