@@ -231,3 +231,46 @@ VALUES
     ('Compiler Design Lab', 'Lab', 'Ms. Aiman Shahid', 'SEM-VI', 2),
     ('Cloud Computing', 'Theory', 'Mrs. K. Srilatha', 'SEM-VI', 4)
 ON CONFLICT DO NOTHING;
+
+CREATE TABLE IF NOT EXISTS section_subject_faculty (
+    id SERIAL PRIMARY KEY,
+    section_id INTEGER,
+    subject_name VARCHAR(150),
+    faculty_name VARCHAR(150),
+    department VARCHAR(50)
+);
+
+
+INSERT INTO section_subject_faculty
+(section_id, subject_name, faculty_name, department)
+VALUES
+
+(1,'Software Engineering','Mrs. M. Swathisree','CSE'),
+(1,'Information Security','Dr. Shivani Yadao','CSE'),
+(1,'Compiler Design','Mrs. K. Srilatha','CSE'),
+(1,'DevOps','Dr. D. Radhika','CSE'),
+(1,'Startup and Entrepreneurship','Ms. Aiman Shahid','MBA'),
+(1,'Technical Seminar','Ms. Kalyani Priyanka','CSE'),
+(1,'Software Engineering Lab','Mrs. M. Swathisree','CSE'),
+(1,'Information Security Lab','Dr. Shivani Yadao','CSE'),
+(1,'Compiler Design Lab','Mrs. K. Srilatha','CSE'),
+
+(2,'Software Engineering','Mrs. B. Sree Saranya','CSE'),
+(2,'Information Security','Mrs. B. Manisha','CSE'),
+(2,'Compiler Design','Mrs. M. Sowmya','CSE'),
+(2,'DevOps','Mr. M. Sai Ramakrishna','CSE'),
+(2,'Startup and Entrepreneurship','Ms. P. Vasavi Reddy','MBA'),
+(2,'Technical Seminar','Mrs. B. Sree Saranya','CSE'),
+(2,'Software Engineering Lab','Mrs. B. Sree Saranya','CSE'),
+(2,'Information Security Lab','Mrs. B. Manisha','CSE'),
+(2,'Compiler Design Lab','Mrs. M. Sowmya','CSE'),
+
+(3,'Software Engineering','Mr. Abhisek Goud','CSE'),
+(3,'Information Security','Mrs. M. Thejaswee Reddy','CSE'),
+(3,'Compiler Design','Mrs. B. Gnana Prasuna','CSE'),
+(3,'Cloud Computing','Dr. Shivani Yadao','CSE'),
+(3,'Startup and Entrepreneurship','Ms. Aiman Shahid','MBA'),
+(3,'Technical Seminar','Ms. Madavi Deepala','CSE'),
+(3,'Software Engineering Lab','Mr. Abhisek Goud','CSE'),
+(3,'Information Security Lab','Mrs. M. Thejaswee Reddy','CSE'),
+(3,'Compiler Design Lab','Mrs. B. Gnana Prasuna','CSE');
