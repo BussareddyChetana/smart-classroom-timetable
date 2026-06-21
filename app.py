@@ -8,13 +8,13 @@ app = Flask(__name__)
 app.secret_key = 'supersecretkey'
 app.teardown_appcontext(close_db)
 
-with app.app_context():
-    from database import init_db
-    try:
-        init_db()
-        print("Database initialized successfully")
-    except Exception as e:
-        print("Database initialization error:", e)
+#with app.app_context():
+ #   from database import init_db
+  #  try:
+   #     init_db()
+    #    print("Database initialized successfully")
+    #except Exception as e:
+     #   print("Database initialization error:", e)
 
 DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 PERIODS = ['P1', 'P2', 'BREAK', 'P3', 'P4', 'LUNCH', 'P5', 'P6']
