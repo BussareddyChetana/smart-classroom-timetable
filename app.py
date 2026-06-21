@@ -3,6 +3,7 @@ from datetime import date, datetime, time
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import query, close_db
+from zoneinfo import ZoneInfo
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
@@ -97,8 +98,9 @@ DAY_INDEX = {day: index for index, day in enumerate(DAYS)}
 
 
 def current_day_name():
-    today = date.today().strftime('%A')
-    return today if today in DAYS else 'Monday'
+    return datetime.now(
+        ZoneInfo("Asia/Kolkata")
+    ).strftime("%A")
     
 
 
@@ -114,7 +116,9 @@ def build_timetable_grid(entries):
 
 
 def current_and_next_class(entries, today_name):
-    now = datetime.now().time()
+    now = datetime.now(
+        ZoneInfo("Asia/Kolkata")
+    ).time()
     today_entries = sorted(
         [entry for entry in entries if entry['day'] == today_name],
         key=lambda item: ACADEMIC_PERIODS.index(item['period']) if item['period'] in ACADEMIC_PERIODS else 99
@@ -315,7 +319,9 @@ def student_dashboard():
     )
     timetable_entries = query('SELECT * FROM timetable WHERE section_id = %s ORDER BY day, period', (student['section_id'],), fetchall=True)
     timetable = build_timetable_grid(timetable_entries)
-    real_today = date.today().strftime('%A')
+    real_today = datetime.now(
+        ZoneInfo("Asia/Kolkata")
+    ).strftime('%A')
     today_name = current_day_name()
     if real_today == 'Sunday':
         today_schedule = []
@@ -348,7 +354,7 @@ def student_dashboard():
 def view_teachers():
     if not session.get('admin_id'):
         return redirect(url_for('login'))
-    teachers = query('SELECT * FROM teachers ORDER BY employee_id', fetchall=True)
+    teachers = query('SELECT * FROM teachers ORDER BY CAST(SUBSTRING(employee_id FROM 4) AS INTEGER)', fetchall=True)
     return render_template('teachers.html', teachers=teachers)
 
 
