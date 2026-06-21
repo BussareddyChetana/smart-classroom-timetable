@@ -504,6 +504,7 @@ def view_subjects():
     subjects = query(
     '''
     SELECT DISTINCT
+    sub.subject_id,
     ssf.subject_name,
     sub.subject_type,
     ssf.faculty_name,
