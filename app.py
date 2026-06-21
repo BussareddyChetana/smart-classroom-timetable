@@ -325,8 +325,21 @@ def student_dashboard():
     today_name = current_day_name()
     if real_today == 'Sunday':
         today_schedule = []
-        current_class = None
-        next_class = None
+        current_class = {
+            'subject_name':'Holiday'
+        }
+        next_class = query(
+            '''
+            SELECT *
+            FROM timetable
+            WHERE section_id = %s
+            AND day = 'Monday'
+            AND period = 'P1'
+            LIMIT 1
+            ''',
+            (student['section_id'],),
+            fetchone=True
+        )
     else:
         today_schedule = [entry for entry in timetable_entries if entry['day'] == today_name]
     current_class, next_class = current_and_next_class(timetable_entries, today_name)
