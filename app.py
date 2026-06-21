@@ -181,6 +181,8 @@ def login():
             employee_id = request.form['employee_id']
             password = request.form['password']
             teacher = query('SELECT * FROM teachers WHERE employee_id = %s', (employee_id,), fetchone=True)
+            print("EMPLOYEE ID =", employee_id)
+            print("TEACHER =", teacher)
             if teacher and check_password_hash(teacher['password'], password):
                 session['teacher_id'] = teacher['teacher_id']
                 session['teacher_name'] = teacher['teacher_name']
@@ -213,7 +215,13 @@ def admin_dashboard():
     student_count = query('SELECT COUNT(*) AS count FROM students', fetchone=True)['count']
     room_count = query('SELECT COUNT(*) AS count FROM rooms WHERE is_active = TRUE', fetchone=True)['count']
     subject_count = query('SELECT COUNT(*) AS count FROM section_subject_faculty', fetchone=True)['count']
-    section_count = query('SELECT COUNT(*) AS count FROM sections', fetchone=True)['count']
+    subject_count = query(
+    '''
+    SELECT COUNT(DISTINCT subject_name) AS count
+    FROM section_subject_faculty
+    ''',
+    fetchone=True
+)['count']
     section_counts = query('SELECT section_name, student_count FROM sections ORDER BY section_name', fetchall=True)
     return render_template('admin_dashboard.html', teacher_count=teacher_count, student_count=student_count,
                            room_count=room_count, subject_count=subject_count, section_count=section_count,
