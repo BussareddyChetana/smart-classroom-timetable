@@ -196,9 +196,10 @@
                 <a class="nav-link {% if request.endpoint == 'view_teachers' %}active{% endif %}" href="{{ url_for('view_teachers') }}"><i class="bi bi-person-badge"></i> Faculty</a>
                 <a class="nav-link {% if request.endpoint == 'view_students' %}active{% endif %}" href="{{ url_for('view_students') }}"><i class="bi bi-mortarboard"></i> Students</a>
                 <a class="nav-link {% if request.endpoint == 'view_rooms' %}active{% endif %}" href="{{ url_for('view_rooms') }}"><i class="bi bi-door-open"></i> Rooms</a>
+                <a class="nav-link {% if request.endpoint == 'view_subjects' %}active{% endif %}" href="{{ url_for('view_subjects') }}"><i class="bi bi-journal-bookmark"></i> Subjects</a>
                 <a class="nav-link {% if request.endpoint == 'all_timetables' %}active{% endif %}" href="{{ url_for('all_timetables') }}"> <i class="bi bi-table"></i> View Timetables</a>
                 <a class="nav-link {% if request.endpoint == 'generate_timetable' %}active{% endif %}" href="{{ url_for('generate_timetable') }}"><i class="bi bi-magic"></i> Generator</a>
-                <a class="nav-link {% if request.endpoint == 'view_timetable' %}active{% endif %}" href="{{ url_for('all_timetables') }}"><i class="bi bi-table"></i> View Timetable</a>
+            
                 <span class="sidebar-section-label">Other</span>
                 <a class="nav-link {% if request.endpoint == 'reports' %}active{% endif %}" href="{{ url_for('reports') }}"><i class="bi bi-graph-up"></i> Reports</a>
                 

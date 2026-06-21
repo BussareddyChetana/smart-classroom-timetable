@@ -503,7 +503,7 @@ def view_subjects():
         return redirect(url_for('login'))
     subjects = query(
     '''
-    SELECT DISTINCT
+    SELECT 
     sub.subject_id,
     ssf.subject_name,
     sub.subject_type,
