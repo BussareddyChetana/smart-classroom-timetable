@@ -87,12 +87,12 @@ LAB_CONSECUTIVE = [('P1','P2'), ('P3','P4'), ('P5','P6')]
 THEORY_ROOMS = ['A101', 'A102', 'A103']
 LAB_ROOMS = ['LAB-1', 'LAB-2', 'LAB-3']
 PERIOD_TIMES = {
-    'P1': (time(9, 30), time(10, 20)),
-    'P2': (time(10, 20), time(11, 10)),
-    'P3': (time(11, 25), time(12, 15)),
-    'P4': (time(12, 15), time(13, 5)),
-    'P5': (time(13, 50), time(14, 40)),
-    'P6': (time(14, 40), time(15, 30)),
+    'P1': (time(9, 0), time(10, 0)),
+    'P2': (time(10, 0), time(11, 0)),
+    'P3': (time(11, 10), time(12, 10)),
+    'P4': (time(12, 10), time(13, 10)),
+    'P5': (time(13, 50), time(14, 50)),
+    'P6': (time(14, 50), time(15, 50)),
 }
 DAY_INDEX = {day: index for index, day in enumerate(DAYS)}
 
@@ -116,27 +116,41 @@ def build_timetable_grid(entries):
 
 
 def current_and_next_class(entries, today_name):
-    now = datetime.now(
-        ZoneInfo("Asia/Kolkata")
-    ).time()
+    now = datetime.now(ZoneInfo("Asia/Kolkata")).time()
+
+    # Break and Lunch handling
+    if time(11, 0) <= now < time(11, 10):
+        return {'subject_name': 'BREAK'}, None
+
+    if time(13, 10) <= now < time(13, 50):
+        return {'subject_name': 'LUNCH'}, None
+
     today_entries = sorted(
-        [entry for entry in entries if entry['day'] == today_name],
-        key=lambda item: ACADEMIC_PERIODS.index(item['period']) if item['period'] in ACADEMIC_PERIODS else 99
+        [e for e in entries if e['day'] == today_name],
+        key=lambda x: ACADEMIC_PERIODS.index(x['period'])
     )
+
     current_class = None
     next_class = None
+
     for entry in today_entries:
         start, end = PERIOD_TIMES.get(entry['period'], (None, None))
-        if start and end and start <= now <= end:
+
+        if start and end and start <= now < end:
             current_class = entry
+
         elif start and start > now and next_class is None:
             next_class = entry
+
     if next_class is None:
         upcoming = sorted(
-            [entry for entry in entries if DAY_INDEX.get(entry['day'], 99) > DAY_INDEX.get(today_name, 99)],
-            key=lambda item: (DAY_INDEX.get(item['day'], 99), ACADEMIC_PERIODS.index(item['period']))
+            [e for e in entries if DAY_INDEX.get(e['day'], 99) > DAY_INDEX.get(today_name, 99)],
+            key=lambda x: (DAY_INDEX.get(x['day'], 99),
+                           ACADEMIC_PERIODS.index(x['period']))
         )
+
         next_class = upcoming[0] if upcoming else None
+
     return current_class, next_class
 
 
